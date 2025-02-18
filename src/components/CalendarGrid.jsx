@@ -1,12 +1,25 @@
 import { useState } from "react";
 
 export default function CalendarGrid() {
+  // Use State to Track the Current Month
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  // Function to Change the Month
+  const changeMonth = (offset) => {
+    setCurrentMonth((prevMonth) => {
+      const newMonth = new Date(
+        prevMonth.getFullYear(),
+        prevMonth.getMonth() + offset,
+        1
+      );
+      return newMonth;
+    });
+  };
 
   // Days of the week
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Get first and last day of the month
+  // First and last day of the month
   const firstDayOfMonth = new Date(
     currentMonth.getFullYear(),
     currentMonth.getMonth(),
@@ -30,11 +43,28 @@ export default function CalendarGrid() {
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-4 bg-white shadow-lg rounded-lg">
-      {/* Month & Year */}
-      <h2 className="text-center text-2xl font-bold mb-4">
-        {currentMonth.toLocaleString("default", { month: "long" })}{" "}
-        {currentMonth.getFullYear()}
-      </h2>
+      {/* Month Navigation Controls */}
+      <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={() => changeMonth(-1)}
+          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded"
+        >
+          ◀ Prev
+        </button>
+        <h2 className="text-center text-2xl font-bold text-black">
+          {currentMonth.toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+          })}
+        </h2>
+
+        <button
+          onClick={() => changeMonth(1)}
+          className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded"
+        >
+          Next ▶
+        </button>
+      </div>
 
       {/* Days of the Week */}
       <div className="grid grid-cols-7 gap-2 text-center font-bold text-gray-700">
@@ -56,8 +86,8 @@ export default function CalendarGrid() {
               className={`p-6 text-center rounded ${
                 day === new Date().getDate() &&
                 currentMonth.getMonth() === new Date().getMonth()
-                  ? "bg-blue-500 text-white font-bold" // Today's date (highlighted)
-                  : "bg-gray-100 text-black font-semibold" // Regular days (now visible)
+                  ? "bg-blue-500 text-white font-bold" // Today's date
+                  : "bg-gray-100 text-black font-semibold" // Regular days
               }`}
             >
               {day}
