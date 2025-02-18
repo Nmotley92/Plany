@@ -5,10 +5,12 @@ import './App.css'
 
 
 
+import CalendarGrid from "./components/CalendarGrid";
+
 export default function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-500 text-white text-3xl font-bold">
-      TailwindCSS is Working! 🚀
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <CalendarGrid />
     </div>
   );
 }
